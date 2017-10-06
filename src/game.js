@@ -3,6 +3,11 @@
 import Snake from './snake';
 import Food from './food';
 
+HTMLMediaElement.prototype.stop = function() {
+  this.pause();
+  this.currentTime = 0;
+}
+
 /** @class Game
   * Represents a snake game
   */
@@ -40,6 +45,8 @@ export default class Game {
     window.onkeydown = this.handleKeyDown;
     // Start the game loop
     this.interval = setInterval(this.loop, 500);
+    // Game music
+    this.music = new Audio('timless.mp3');
   }
   /** @function gameOver
     * Displays a game over message using the DOM
@@ -55,6 +62,7 @@ export default class Game {
     */
   handleKeyDown(event) {
     event.preventDefault();
+    console.log(event.key);
     switch(event.key){
       case 'w':
       case 'ArrowUp':
@@ -71,6 +79,12 @@ export default class Game {
       case 'd':
       case 'ArrowRight':
         this.input.direction = 'right';
+        break;
+      case ' ':
+        this.music.play();
+        break;
+      case 'Escape':
+        this.music.stop();
         break;
     }
   }
